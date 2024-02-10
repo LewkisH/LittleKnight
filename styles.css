@@ -1,0 +1,21 @@
+#player {
+    --xCoord: 0;
+    --yCoord: 0;
+    background: url('assets/Player.png');
+    width: 96px;
+    height: 144px;
+    position: absolute;
+    left: calc(var(--xCoord) * 1px);
+    top: calc(var(--yCoord) * 1px);
+}
+
+#game {
+    width: 1000px;
+    height: 600px;
+    border: 2px;
+    border-style: solid;
+}
+
+body{
+    margin:0;
+}
