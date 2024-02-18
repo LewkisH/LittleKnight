@@ -45,7 +45,7 @@ window.addEventListener('load', function () {
     }
 
     //if passing in entities other than player, use their html element
-    class AABBItem {
+    class AABBItem { //class to turn any object into a collidable.
         constructor(entity, type) {
             if (entity instanceof Player) {
                 this.elem = document.getElementById("player")
@@ -89,6 +89,7 @@ window.addEventListener('load', function () {
             }
         }
 
+        //did we collide with 'other' entity?
         checkCollision(other) {
             return (
                 (this.x + this.width) > other.x &&
@@ -97,6 +98,7 @@ window.addEventListener('load', function () {
                 (this.y + this.height) > other.y
             )
         }
+        //calculates which side of 'other' entity did current object collide with
         collisionSide(other) {
             const dx = (this.x + this.width / 2) - (other.x + other.width / 2);
             const dy = (this.y + this.height / 2) - (other.y + other.height / 2);
@@ -115,6 +117,7 @@ window.addEventListener('load', function () {
             return null;
         }
 
+        //displays x,y,height,width under game window
         addToDebug() {
             this.debug = document.getElementById('collisiondebug');
             this.name = document.createElement('p');
@@ -133,6 +136,8 @@ window.addEventListener('load', function () {
             this.name.appendChild(debugH)
             this.name.appendChild(debugW)
         }
+
+        //put this in game loop to update moveable objects' coordinates when debugging
         updateDebug() {
 
             this.debugY.textContent = "Y: " + this.y
@@ -140,15 +145,17 @@ window.addEventListener('load', function () {
         }
     }
 
-    class CollisionManager {
+    
+    class CollisionManager { // put all collidable objects into the manager
         constructor() {
             this.entities = [];
         }
         addEntity(entity) {
             this.entities.push(entity)
-            console.log("PUSHED: " + entity.id)
+            //console.log("PUSHED: " + entity.id)
         }
 
+        //checks collisions between all objects.
         checkAllCollision() {
             let playerCol = false
             for (let i = 0; i < this.entities.length; i++) {
@@ -160,7 +167,7 @@ window.addEventListener('load', function () {
 
 
                         if (this.entities[i].checkCollision(this.entities[j])) {
-                            console.log(this.entities[i].id + " collided with: " + this.entities[j].id)
+                           // console.log(this.entities[i].id + " collided with: " + this.entities[j].id)
 
                             const char = this.entities[i];
                             const env = this.entities[j];
@@ -176,13 +183,13 @@ window.addEventListener('load', function () {
                             }
                             if (env.type === "environment") {
                                 if (char.collisionSide(env) === "right") {
-                                    console.log('right', env.id)
+                                 //   console.log('right', env.id)
                                     char.x = env.x + env.width
                                 } else if (char.collisionSide(env) === "left") {
-                                    console.log('left', env.id)
+                                  //  console.log('left', env.id)
                                     char.x = env.x - char.width
                                 } else if (char.collisionSide(env) === "bottom") {
-                                    console.log('bot', env.id)
+                                   // console.log('bot', env.id)
                                     char.y = env.y + env.height
                                     char.entity.vy += 1
                                 }

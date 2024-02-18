@@ -45,7 +45,7 @@ export default class Player {
         if (value.keys.indexOf('w') > -1 && (this.onGround())) {
             this.vy = jumpVelocity
             this.AABB.grounded = false
-            console.log("JUMPING!")
+           // console.log("JUMPING!")
         }
 
         //horizontal movement
