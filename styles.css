@@ -13,7 +13,28 @@
     width: 1000px;
     height: 600px;
     border: 2px;
+    color: black;
     border-style: solid;
+}
+#ground{
+    width:120px;
+    height:100px;
+    background: black;
+    position:absolute;
+    top: 302px;
+    left: 100px;
+}
+#platform{
+    width:120px;
+    height:20px;
+    background: black;
+    position:absolute;
+    top: 402px;
+    left: 400px;
+}
+
+div {
+    color: white;
 }
 
 body{
