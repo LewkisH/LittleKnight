@@ -153,47 +153,46 @@ window.addEventListener('load', function () {
             let playerCol = false
             for (let i = 0; i < this.entities.length; i++) {
                 for (let j = i + 1; j < this.entities.length; j++) {
-                    if (this.entities[i] !== this.entities[j]) {
-                        if (this.entities[i].checkCollision(this.entities[j])) {
 
+                    if (this.entities[i].type === "character" &&
+                        (this.entities[j].type === "environment" ||
+                            this.entities[j].type === "platform")) {
+
+
+                        if (this.entities[i].checkCollision(this.entities[j])) {
                             console.log(this.entities[i].id + " collided with: " + this.entities[j].id)
 
+                            const char = this.entities[i];
+                            const env = this.entities[j];
+                            if (char.id === "player") { playerCol = true }
 
-                            if  (this.entities[i].type === "character" &&
-                                (this.entities[j].type === "environment" ||
-                                 this.entities[j].type === "platform")) {
-                                const env = this.entities[j];
-                                const char = this.entities[i];
-
-                                if (char.id === "player") { playerCol = true }
-
-                                if (char.collisionSide(env) === "top") {
-                                    if (char.entity.vy >= 0) {
-                                        char.y = env.y - char.height
-                                        console.log('top', env.id)
-                                        char.grounded = true
-                                    }
+                            if (char.collisionSide(env) === "top") {
+                                if (char.entity.vy >= 0) {
+                                    char.entity.vy = 0;
+                                    char.y = env.y - char.height
+                                    console.log('top', env.id)
+                                    char.grounded = true
                                 }
-                                if (env.type === "environment") {
-                                    if (char.collisionSide(env) === "right") {
-                                        console.log('right', env.id)
-                                        char.x = env.x + env.width
-                                    } else if (char.collisionSide(env) === "left") {
-                                        console.log('left', env.id)
-                                        char.x = env.x - char.width
-                                    } else if (char.collisionSide(env) === "bottom") {
-                                        console.log('bot', env.id)
-                                        char.y = env.y + env.height
-                                        char.entity.vy += 1
-                                    }
-                                }
-
                             }
+                            if (env.type === "environment") {
+                                if (char.collisionSide(env) === "right") {
+                                    console.log('right', env.id)
+                                    char.x = env.x + env.width
+                                } else if (char.collisionSide(env) === "left") {
+                                    console.log('left', env.id)
+                                    char.x = env.x - char.width
+                                } else if (char.collisionSide(env) === "bottom") {
+                                    console.log('bot', env.id)
+                                    char.y = env.y + env.height
+                                    char.entity.vy += 1
+                                }
+                            }
+
                         }
                     }
                 }
             }
-            if (!playerCol) {
+            if (!playerCol) {//if player has not collided with anything this frame then player is no longer grounded.
                 player.AABB.grounded = false
             }
         }
