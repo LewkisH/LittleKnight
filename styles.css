@@ -9,6 +9,15 @@
     top: calc(var(--yCoord) * 1px);
 }
 
+.goblin {
+    top: 506px;
+    left: 500px;
+    background: url('assets/goblin.png');
+    width: 96px;
+    height: 96px;
+    position: absolute;
+}
+
 #game {
     width: 1000px;
     height: 600px;
