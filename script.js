@@ -174,6 +174,9 @@ window.addEventListener('load', function () {
                             if (char.id === "player") { playerCol = true }
 
                             if (char.collisionSide(env) === "top") {
+                                if (char.entity.crouch && env.type === "platform"){
+                                    continue
+                                }
                                 if (char.entity.vy >= 0) {
                                     char.entity.vy = 0;
                                     char.y = env.y - char.height

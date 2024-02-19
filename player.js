@@ -47,6 +47,10 @@ export default class Player {
             this.AABB.grounded = false
            // console.log("JUMPING!")
         }
+        if (value.keys.indexOf('s') > -1) {
+            this.crouch = true
+           // console.log("JUMPING!")
+        } else this.crouch = false;
 
         //horizontal movement
         this.x += this.speed * delta
