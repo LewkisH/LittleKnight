@@ -9,14 +9,14 @@ export default class Player {
         this.y = gameHeight - this.height
         this.vy = 0
         this.gravity = 0.02;
-        this.relativePlayerPosition = 0;
+        this.backgroundScroll = 0;
     }
 
     get x() {
         return parseFloat(getComputedStyle(this.playerElem).getPropertyValue("--xCoord"));
     }
     set x(value) {
-        if (value < 555 && value > 355) {
+        if (value < 545 && value > 365) {
             this.playerElem.style.setProperty("--xCoord", Math.floor(value))
         } else {
             if (value > 500) {
@@ -36,7 +36,7 @@ export default class Player {
 
 
     update(value, delta) {
-        console.log("Relative pos:", this.relativePlayerPosition);
+        // console.log("Relative pos:", this.relativePlayerPosition);
 
         const horizontalSpeed = 0.5;
         const jumpVelocity = -3;
@@ -44,12 +44,10 @@ export default class Player {
         if (value.keys.indexOf('d') > -1) {
             this.playerElem.style.transform = 'scaleX(1)'
             this.speed = horizontalSpeed
-            this.relativePlayerPosition += 1;
 
         } else if (value.keys.indexOf('a') > -1) {
             this.playerElem.style.transform = 'scaleX(-1)'
             this.speed = -horizontalSpeed
-            this.relativePlayerPosition -= 1;
 
         } else this.speed = 0
 
@@ -81,24 +79,30 @@ export default class Player {
     }
 
     ScrollGameRight() {
-        console.log("scrolling right..")
+        // console.log("scrolling right..")
         let gameObjects = document.querySelectorAll("#game .gameObject");
         gameObjects.forEach(function(elem) {
             let currentLeft = parseFloat(window.getComputedStyle(elem).left);
             let newLeft = currentLeft - 10;
             elem.style.left = newLeft + "px";
         });
+        // scroll background
+        let backgroundDiv = document.getElementById("background");
+        this.backgroundScroll += 1.1
+        backgroundDiv.style.backgroundPositionX = `${this.backgroundScroll}%`
     }
 
     ScrollGameLeft() {
-        console.log("scrolling left..")
+        // console.log("scrolling left..")
         let gameObjects = document.querySelectorAll("#game .gameObject");
         gameObjects.forEach(function(elem) {
             let currentLeft = parseFloat(window.getComputedStyle(elem).left);
             let newLeft = currentLeft + 10;
-
             elem.style.left = newLeft + "px";
         });
-
+        // scroll background
+        let backgroundDiv = document.getElementById("background");
+        this.backgroundScroll -= 1.1
+        backgroundDiv.style.backgroundPositionX = `${this.backgroundScroll}%`
     }
 }
