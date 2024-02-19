@@ -1,5 +1,5 @@
 #player {
-    --xCoord: 0;
+    --xCoord: 454;
     --yCoord: 0;
     background: url('assets/Player.png');
     width: 96px;
