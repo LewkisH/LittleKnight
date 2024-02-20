@@ -1,4 +1,4 @@
-export default class Player {
+/* export default class Player {
     constructor(gameWidth, gameHeight, playerElem) {
         this.playerElem = playerElem
         this.speed = 0
@@ -114,3 +114,4 @@ export default class Player {
         backgroundDiv.style.backgroundPositionX = `${this.backgroundScroll}%`
     }
 }
+ */

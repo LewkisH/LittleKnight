@@ -1,4 +1,4 @@
-import Player from './player.js'
+/* import Player from './player.js'
     let lastTime;
     let isPaused = false;
     let update;
@@ -297,4 +297,4 @@ function handleContinue() {
 function handleRestart() {
     console.log("Restart was pressed");
     // Still needs functionality *TODO
-}
+} */
