@@ -7,7 +7,7 @@ window.addEventListener('load', function () {
     const game = document.getElementById('game');
     const player = new Player(game.offsetWidth, game.offsetHeight, document.getElementById("player"))
     // let lastTime
-    gameLoop = function(time) {
+   const gameLoop = function(time) {
         if (!isPaused) {
             if (lastTime != null) {
                 const delta = time - lastTime
@@ -207,13 +207,14 @@ window.addEventListener('load', function () {
                             char.grounded = true
                         }
                     } else if (char.collisionSide(env) === "right") {
-                        //   console.log('right', env.id)
+                        console.log('right', env.id)
                         if (char.entity.vy > 0 && env.type === "platform") {
-                            char.x = env.x + env.width
+                               char.x = env.x + env.width
                         }
-
+                        
                     } else if (char.collisionSide(env) === "left") {
                         //  console.log('left', env.id)
+                        console.log(char.x,env.x)
                         if (char.entity.vy > 0 && env.type === "platform") {
                             char.x = env.x - char.width
                         }

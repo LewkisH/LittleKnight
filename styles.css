@@ -135,12 +135,12 @@
 }
 
 #ground{
-    width:120px;
-    height:100px;
+    width:96px;
+    height:96px;
     background: black;
     position:absolute;
     top: 302px;
-    left: 100px;
+    left: 200px;
 }
 
 #platform{
