@@ -1,23 +1,24 @@
 import Player from './player.js'
-
+    let lastTime;
+    let isPaused = false;
+    let update;
 window.addEventListener('load', function () {
+    let pausedPlayerState = null;
     const game = document.getElementById('game');
     const player = new Player(game.offsetWidth, game.offsetHeight, document.getElementById("player"))
-
-
-    let lastTime
-    //this is the gameloop
-    function gameloop(time) {
-        if (lastTime != null) {
-            const delta = time - lastTime
-            player.update(input, delta)
-            colMan.checkAllCollision()
-            // console.log(playerAABB.checkCollision(blackAABB))
+    // let lastTime
+    gameLoop = function(time) {
+        if (!isPaused) {
+            if (lastTime != null) {
+                const delta = time - lastTime
+                player.update(input, delta)
+                colMan.checkAllCollision()
+                // console.log(playerAABB.checkCollision(blackAABB))
+            }
+            lastTime = time
+            window.requestAnimationFrame(gameLoop)
         }
-        lastTime = time
-        window.requestAnimationFrame(gameloop)
     }
-
 
     class InputHandler {
         constructor() {
@@ -233,8 +234,6 @@ window.addEventListener('load', function () {
         }
     }
 
-
-
     const blackBox = document.getElementById('ground');
     const platform = document.getElementById('platform');
     const blackAABB = new AABBItem(blackBox, "environment")
@@ -246,5 +245,55 @@ window.addEventListener('load', function () {
     colMan.addEntity(platAABB)
 
     const input = new InputHandler()
-    window.requestAnimationFrame(gameloop)
+    window.requestAnimationFrame(gameLoop)
+    // Pause game
+    window.addEventListener("keydown", function(e) {
+        if (e.key === "Escape") {
+            isPaused = !isPaused;
+            togglePauseMenu(isPaused);
+            if (isPaused) {
+                pausedPlayerState = {
+                    velocity: player.velocity,
+                    position: player.position
+                }
+            } else {
+                if (pausedPlayerState) {
+                    player.velocity = pausedPlayerState.velocity;
+                    player.position = pausedPlayerState.position;
+                }
+                lastTime = performance.now();
+                window.requestAnimationFrame(gameLoop)
+            }
+        }
+    });
 })
+
+
+function togglePauseMenu(isPaused) {
+    let pauseMenu = document.getElementById("pauseMenu");
+    pauseMenu.style.display = isPaused ? "flex" : "none";
+
+    const restartButton = document.querySelector(".restart");
+    const continueButton = document.querySelector(".continue");
+    if (isPaused) {
+        restartButton.addEventListener('click', handleRestart);
+        continueButton.addEventListener('click', handleContinue);
+    } else {
+        restartButton.removeEventListener('click', handleRestart);
+        continueButton.removeEventListener('click', handleContinue);
+    }
+}
+
+function handleContinue() {
+    console.log("Continue was pressed");
+    togglePauseMenu(false);
+    isPaused = false;
+    lastTime = performance.now();
+    window.requestAnimationFrame(gameLoop);
+}
+
+
+function handleRestart() {
+    console.log("Restart was pressed");
+    // Still needs functionality *TODO
+}
