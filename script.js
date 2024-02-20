@@ -7,7 +7,7 @@ window.addEventListener('load', function () {
     // Populate the (bitmapObjects) array with sample objects
     const newObject = {
         objectType: "platform",
-        x: 1,
+        x: 0,
         y: 1,
         width: 2,
         height: 2,
@@ -19,7 +19,7 @@ window.addEventListener('load', function () {
         width: 1,
         height: 1,
     };
-    
+
     // Add it to bitmapObjects
     bitmapObjects.push(newObject, newObject2);
 

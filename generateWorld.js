@@ -16,7 +16,32 @@
  */
 
 function generateWorld(objectArray, gameWorldElem) {
-    console.log("i worked!", gameWorldElem, objectArray);
+    // Contains the gameWorld div height/width (for dynamic purposes)
+    const gameWorldDimension = {
+        height: gameWorldElem.clientHeight,
+        width: gameWorldElem.clientWidth,
+    };
+    objectArray.forEach(object => {
+        gameWorldElem.appendChild(parseObjToDiv(object, gameWorldDimension));
+    });
+}
+
+// This function turns a single bitmap Obj to a Div ready to be placed in the gameworld
+function parseObjToDiv(bitmapObj, gameWorldDimension) {
+    const newDivElem = document.createElement('div');
+    newDivElem.className = bitmapObj.objectType;
+    newDivElem.id = bitmapObj.objectType;
+    newDivElem.style.width = bitmapObj.width + 'px';
+    newDivElem.style.height = bitmapObj.height + 'px';
+    // Color depending on the object Type *TODO
+    newDivElem.style.backgroundColor = 'red';
+
+    let leftPos = bitmapObj.x + 'px';
+    let topPos = (gameWorldDimension.height - bitmapObj.y) - bitmapObj.height  + 'px';
+    newDivElem.style.position = 'absolute';
+    newDivElem.style.left = leftPos;
+    newDivElem.style.top = topPos;
+    return newDivElem;
 }
 
 /** @type {bitmapObject[]} */
