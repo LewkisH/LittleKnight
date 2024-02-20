@@ -1,4 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Sixtyfour&display=swap');
+
+body {
+    background-color: rgb(19, 40, 56);
+}
+
+/* @import url('https://fonts.googleapis.com/css2?family=Sixtyfour&display=swap');
 
 #player {
     --xCoord: 454;
@@ -126,6 +131,7 @@
     padding-right: 5px;
 }
 
+
 #game {
     width: 1000px;
     height: 600px;
@@ -158,4 +164,4 @@ div {
 
 body{
     margin:0;
-}
+} */
