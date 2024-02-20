@@ -53,7 +53,8 @@ export default class Player {
         } else this.speed = 0
 
 
-        if (value.keys.indexOf('w') > -1 && (this.onGround())) {
+        if ((value.keys.indexOf('w') > -1 
+          || value.keys.indexOf(' ') > -1) && (this.onGround())) {
             this.vy = jumpVelocity
             this.AABB.grounded = false
            // console.log("JUMPING!")

@@ -3,8 +3,11 @@ import Player from './player.js'
 window.addEventListener('load', function () {
     const game = document.getElementById('game');
     const player = new Player(game.offsetWidth, game.offsetHeight, document.getElementById("player"))
+
+
     let lastTime
-    function update(time) {
+    //this is the gameloop
+    function gameloop(time) {
         if (lastTime != null) {
             const delta = time - lastTime
             player.update(input, delta)
@@ -12,7 +15,7 @@ window.addEventListener('load', function () {
             // console.log(playerAABB.checkCollision(blackAABB))
         }
         lastTime = time
-        window.requestAnimationFrame(update)
+        window.requestAnimationFrame(gameloop)
     }
 
 
@@ -25,7 +28,8 @@ window.addEventListener('load', function () {
                 if ((e.key === "d" ||
                     e.key === "a" ||
                     e.key === "w" ||
-                    e.key === "s")
+                    e.key === "s" ||
+                    e.key === " ")
                     && this.keys.indexOf(e.key) === -1) {
                     this.keys.push(e.key)
                 }
@@ -35,12 +39,21 @@ window.addEventListener('load', function () {
                 if ((e.key === "d" ||
                     e.key === "a" ||
                     e.key === "w" ||
-                    e.key === "s")) {
+                    e.key === "s" ||
+                    e.key === " ")) {
                     this.keys.splice(this.keys.indexOf(e.key), 1)
 
                 }
 
             })
+        }
+    }
+
+    class Enemy {
+        constructor(enemyElem) {
+            this.enemyElem = enemyElem;
+            this.speed = 0;
+
         }
     }
 
@@ -145,7 +158,7 @@ window.addEventListener('load', function () {
         }
     }
 
-    
+
     class CollisionManager { // put all collidable objects into the manager
         constructor() {
             this.entities = [];
@@ -157,54 +170,66 @@ window.addEventListener('load', function () {
 
         //checks collisions between all objects.
         checkAllCollision() {
-            let playerCol = false
+            let playerCol = false;
             for (let i = 0; i < this.entities.length; i++) {
                 for (let j = i + 1; j < this.entities.length; j++) {
-
-                    if (this.entities[i].type === "character" &&
-                        (this.entities[j].type === "environment" ||
-                            this.entities[j].type === "platform")) {
-
-
-                        if (this.entities[i].checkCollision(this.entities[j])) {
-                           // console.log(this.entities[i].id + " collided with: " + this.entities[j].id)
-
-                            const char = this.entities[i];
-                            const env = this.entities[j];
-                            if (char.id === "player") { playerCol = true }
-
-                            if (char.collisionSide(env) === "top") {
-                                if (char.entity.crouch && env.type === "platform"){
-                                    continue
-                                }
-                                if (char.entity.vy >= 0) {
-                                    char.entity.vy = 0;
-                                    char.y = env.y - char.height
-                                    console.log('top', env.id)
-                                    char.grounded = true
-                                }
-                            }
-                            if (env.type === "environment") {
-                                if (char.collisionSide(env) === "right") {
-                                 //   console.log('right', env.id)
-                                    char.x = env.x + env.width
-                                } else if (char.collisionSide(env) === "left") {
-                                  //  console.log('left', env.id)
-                                    char.x = env.x - char.width
-                                } else if (char.collisionSide(env) === "bottom") {
-                                   // console.log('bot', env.id)
-                                    char.y = env.y + env.height
-                                    char.entity.vy += 1
-                                }
-                            }
-
-                        }
-                    }
+                    playerCol = this.handlePlayerCollision(i, j, playerCol)
                 }
             }
+
             if (!playerCol) {//if player has not collided with anything this frame then player is no longer grounded.
                 player.AABB.grounded = false
             }
+        }
+
+
+
+        handlePlayerCollision(i, j, playerCol) {
+            if (this.entities[i].type === "character" &&
+                (this.entities[j].type === "environment" ||
+                    this.entities[j].type === "platform")) {
+
+                if (this.entities[i].checkCollision(this.entities[j])) {
+                    // console.log(this.entities[i].id + " collided with: " + this.entities[j].id)
+
+                    const char = this.entities[i];
+                    const env = this.entities[j];
+                    if (char.id === "player") { playerCol = true }
+
+                    if (char.collisionSide(env) === "top") {
+                        if (char.entity.crouch && env.type === "platform"){
+                            
+                        } else if (char.entity.vy >= 0) {
+                            char.entity.vy = 0;
+                            char.y = env.y - char.height
+                            console.log('top', env.id)
+                            char.grounded = true
+                        }
+                    } else if (char.collisionSide(env) === "right") {
+                        //   console.log('right', env.id)
+                        if (char.entity.vy > 0 && env.type === "platform") {
+                            char.x = env.x + env.width
+                        }
+
+                    } else if (char.collisionSide(env) === "left") {
+                        //  console.log('left', env.id)
+                        if (char.entity.vy > 0 && env.type === "platform") {
+                            char.x = env.x - char.width
+                        }
+                    }
+                    if (env.type !== "platform") {
+                        if (char.collisionSide(env) === "bottom") {
+                            // console.log('bot', env.id)
+                            char.y = env.y + env.height
+                            char.entity.vy += 1
+                        }
+                    }
+                }
+
+
+            }
+            return (playerCol)
+
         }
     }
 
@@ -221,5 +246,5 @@ window.addEventListener('load', function () {
     colMan.addEntity(platAABB)
 
     const input = new InputHandler()
-    window.requestAnimationFrame(update)
+    window.requestAnimationFrame(gameloop)
 })
