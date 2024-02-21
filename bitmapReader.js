@@ -99,7 +99,7 @@ function getObjectRect(matrix, row, col, width, height) {
             y++
             matrix[i][col].checked = true
         }
-
+        
         for (let j = col; j < width; j++) {
             if (matrix[i][j].objectType !== findType || matrix[i][j].checked) {
                 break;
@@ -108,8 +108,9 @@ function getObjectRect(matrix, row, col, width, height) {
                 matrix[i][j].checked = true
             };
         }
-
+        
     }
+    return { objectType: findType, x: col, y: Math.abs(row - height) - 1, width: x, height: y }//this is for when the object touches the top of the bitmap
 }
 
 
