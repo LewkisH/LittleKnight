@@ -16,7 +16,6 @@ export async function readBitmap(url) {
         var height = dataView.getUint32(22, true);
         let colorArr = create2DArray(width, height)
 
-        
 
         var pixelArrayOffset = dataView.getUint32(10, true); // the offset for where the first pixel's first byte is
 
@@ -37,9 +36,9 @@ export async function readBitmap(url) {
 
 
         }
-        
-        objArr = parseObjects(colorArr, width, height)
 
+        objArr = parseObjects(colorArr, width, height)
+        console.log(objArr)
         return objArr
 
     } catch (error) {
@@ -52,20 +51,23 @@ export async function readBitmap(url) {
 
 function readRGB(red, green, blue) {
     const rgbMap = new Map();
-
+    //console.log(red,green,blue)
     let key = String(red) + String(green) + String(blue)
 
-    rgbMap.set('25500', 'red');
-    rgbMap.set('123', 'black');
-    rgbMap.set('1257653', 'platform');
-    rgbMap.set('000', 'air');
+    rgbMap.set('02550', 'solid'); //green
+    rgbMap.set('00255', 'platform'); //blue
+    rgbMap.set('25500', 'hazard');//red
+    rgbMap.set('2552550', 'collectible'); //yellow
+    rgbMap.set('255255255', 'invisible');//white
+    rgbMap.set('000', 'air');//black
+    rgbMap.set('1257653', "brown")
     return rgbMap.get(key)
 }
 
 function create2DArray(x, y) {
     const array = new Array(x);
 
-    for (let i = 0; i < x; i++) {
+    for (let i = 0; i < y; i++) {
         array[i] = new Array;
     }
 
@@ -86,31 +88,56 @@ function parseObjects(matrix, width, height) {
 }
 
 function getObjectRect(matrix, row, col, width, height) {
-    let x = 1
-    let y = 0
+    let xCount = 0
+    let yCount = 0
+    let xLen = 0
+    let worldWidth = width;
     let cell = matrix[row][col]
     let findType = cell.objectType
-    for (let i = row; i >= 0; i--) {
-
-        if (matrix[i][col].objectType !== findType || matrix[i][col].checked) {
-            // console.log([x,y], row, col)
-            return { objectType: findType, x: col, y: Math.abs(row - height) - 1, width: x, height: y }
-        } else {
-            y++
-            matrix[i][col].checked = true
-        }
-        
-        for (let j = col; j < width; j++) {
-            if (matrix[i][j].objectType !== findType || matrix[i][j].checked) {
-                break;
-            } else {
-                x++
-                matrix[i][j].checked = true
-            };
-        }
-        
+    if (width + col > worldWidth) {
+        width = worldWidth - col
     }
-    return { objectType: findType, x: col, y: Math.abs(row - height) - 1, width: x, height: y }//this is for when the object touches the top of the bitmap
+    for (let i = row; i >= 0; i--) {
+        for (let j = col; j < width + col; j++) {
+            if (matrix[i][j].objectType === findType && !matrix[i][j].checked) {
+                xCount++
+            } else if (matrix[i][j].objectType !== findType && xLen > xCount) {
+                markChecked(matrix, col, row, xLen, yCount)
+                return { objectType: findType, x: col, y: Math.abs(row - height) - 1, width: xLen, height: yCount }
+            }
+
+            else if (matrix[i][j].objectType !== findType) {
+                if (width + col > worldWidth) {
+                    width = worldWidth - col
+                }
+                else width = xCount;
+                break
+            }
+        }
+        xLen = xCount
+        xCount = 0
+        yCount++
+        if ((xCount + col) === worldWidth) {
+            xLen = xCount
+            yCount++
+            xCount = 0
+        }
+    }
+    markChecked(matrix, col, row, xLen, yCount)
+    return { objectType: findType, x: col, y: Math.abs(row - height) - 1, width: xLen, height: yCount }
+
+}
+
+function markChecked(matrix, col, row, x, y) {
+
+    console.log(`marking ${x} by ${y} square starting from (${col};${row})`)
+    for (let i = row; i > row - y; i--) {
+        for (let j = col; j < x + col; j++) {
+
+
+            matrix[i][j].checked = true
+        }
+    }
 }
 
 
