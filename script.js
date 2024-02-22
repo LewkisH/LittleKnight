@@ -21,7 +21,7 @@ window.addEventListener('load', async function () {
         bitmapObjects.push(newObject, newObject2);
     }; */
 
-   let objArr = await readBitmap("assets/test69.bmp")
+   let objArr = await readBitmap("assets/bmpbruh.bmp")
 console.log(objArr)
 
     // Add it to bitmapObjects

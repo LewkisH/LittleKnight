@@ -51,13 +51,14 @@ export async function readBitmap(url) {
 
 function readRGB(red, green, blue) {
     const rgbMap = new Map();
-    //console.log(red,green,blue)
+    console.log(red,green,blue)
     let key = String(red) + String(green) + String(blue)
 
     rgbMap.set('02550', 'solid'); //green
     rgbMap.set('00255', 'platform'); //blue
     rgbMap.set('25500', 'hazard');//red
     rgbMap.set('2552550', 'collectible'); //yellow
+    rgbMap.set('0255255', 'spawn'); //cyan
     rgbMap.set('255255255', 'invisible');//white
     rgbMap.set('000', 'air');//black
     rgbMap.set('1257653', "brown")
@@ -102,7 +103,7 @@ function getObjectRect(matrix, row, col, width, height) {
             if (matrix[i][j].objectType === findType && !matrix[i][j].checked) {
                 xCount++
             } else if (matrix[i][j].objectType !== findType && xLen > xCount) {
-                markChecked(matrix, col, row, xLen, yCount)
+                markChecked(matrix, col, row, xLen, yCount, findType)
                 return { objectType: findType, x: col, y: Math.abs(row - height) - 1, width: xLen, height: yCount }
             }
 
@@ -123,14 +124,14 @@ function getObjectRect(matrix, row, col, width, height) {
             xCount = 0
         }
     }
-    markChecked(matrix, col, row, xLen, yCount)
+    markChecked(matrix, col, row, xLen, yCount, findType)
     return { objectType: findType, x: col, y: Math.abs(row - height) - 1, width: xLen, height: yCount }
 
 }
 
-function markChecked(matrix, col, row, x, y) {
+function markChecked(matrix, col, row, x, y, type) {
 
-    console.log(`marking ${x} by ${y} square starting from (${col};${row})`)
+    console.log(`marking ${x} by ${y} square starting from (${col};${row}) out of ${type}`)
     for (let i = row; i > row - y; i--) {
         for (let j = col; j < x + col; j++) {
 
