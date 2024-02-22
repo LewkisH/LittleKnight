@@ -15,15 +15,20 @@
  * @param {HTMLElement} gameWorldElem - The element that represents the game world
  */
 
-function generateWorld(objectArray, gameWorldElem) {
-    // Contains the gameWorld div height/width (for dynamic purposes)
+import { CollisionManager, AABBItem } from "./collision.js";
+
+function generateWorld(objectArray, gameWorldElem, colMan) {
+    // Contains the gameWorld div height/width (for dynamic purpowses)
     // Bring this in from style, rather than clientHeight/width
     const gameWorldDimension = {
         height: gameWorldElem.clientHeight,
         width: gameWorldElem.clientWidth,
     };
     objectArray.forEach(object => {
-        gameWorldElem.appendChild(parseObjToDiv(object, gameWorldDimension));
+        let elem =parseObjToDiv(object, gameWorldDimension)
+        gameWorldElem.appendChild(elem);
+        let objCol = new AABBItem(elem, object.objectType)
+        colMan.addEntity(objCol)
     });
 }
 
@@ -36,7 +41,7 @@ function parseObjToDiv(bitmapObj, gameWorldDimension) {
     newDivElem.style.width = (bitmapObj.width * ScaleRatio) + 'px';
     newDivElem.style.height = (bitmapObj.height * ScaleRatio) + 'px';
     // Color depending on the object Type *TODO
-    switch(bitmapObj.objectType){
+    switch (bitmapObj.objectType) {
         case "solid":
             newDivElem.style.backgroundColor = 'green';
             break;

@@ -14,7 +14,7 @@ export async function readBitmap(url) {
         // get file info from bpm header 
         var width = dataView.getUint32(18, true);
         var height = dataView.getUint32(22, true);
-        let colorArr = create2DArray(width, height)
+        let colorArr = create2DArray(height)
 
 
         var pixelArrayOffset = dataView.getUint32(10, true); // the offset for where the first pixel's first byte is
@@ -29,7 +29,7 @@ export async function readBitmap(url) {
                 let blue = dataView.getUint8(pixelOffset)
                 // console.log(x, y, ": ", red, green, blue)
                 let colorValue = readRGB(red, green, blue)
-                //console.log(colorValue)
+                //console.log(x, y, colorValue)
 
                 colorArr[Math.abs(y - height) - 1].push({ objectType: colorValue, x: x, y: y, checked: false })
             }
@@ -38,7 +38,8 @@ export async function readBitmap(url) {
         }
 
         objArr = parseObjects(colorArr, width, height)
-        console.log(objArr)
+        console.log(colorArr)
+
         return objArr
 
     } catch (error) {
@@ -51,7 +52,7 @@ export async function readBitmap(url) {
 
 function readRGB(red, green, blue) {
     const rgbMap = new Map();
-    console.log(red,green,blue)
+    //console.log(red,green,blue)
     let key = String(red) + String(green) + String(blue)
 
     rgbMap.set('02550', 'solid'); //green
@@ -65,8 +66,8 @@ function readRGB(red, green, blue) {
     return rgbMap.get(key)
 }
 
-function create2DArray(x, y) {
-    const array = new Array(x);
+function create2DArray(y) {
+    const array = new Array(y);
 
     for (let i = 0; i < y; i++) {
         array[i] = new Array;
@@ -131,7 +132,7 @@ function getObjectRect(matrix, row, col, width, height) {
 
 function markChecked(matrix, col, row, x, y, type) {
 
-    console.log(`marking ${x} by ${y} square starting from (${col};${row}) out of ${type}`)
+    //console.log(`marking ${x} by ${y} square starting from (${col};${row}) out of ${type}`)
     for (let i = row; i > row - y; i--) {
         for (let j = col; j < x + col; j++) {
 

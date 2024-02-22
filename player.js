@@ -1,6 +1,7 @@
-/* export default class Player {
+export default class Player {
     constructor(gameWidth, gameHeight, playerElem) {
         this.playerElem = playerElem
+        this.id = 'player'
         this.speed = 0
         this.gameWidth = gameWidth
         this.gameHeight = gameHeight
@@ -17,7 +18,11 @@
     }
     set x(value) {
         // console.log(value)
-        if (value < 545 && value > 365) {
+        this.playerElem.style.setProperty("--xCoord", Math.floor(value))
+
+
+        //scrolling logic
+        /* if (value < 545 && value > 365) {
             this.playerElem.style.setProperty("--xCoord", Math.floor(value))
         } else {
             if (value > 500) {
@@ -25,7 +30,7 @@
             } else {
                 this.ScrollGameLeft();
             }
-        }
+        } */
     }
 
     get y() {
@@ -66,10 +71,14 @@
 
         //horizontal movement
         this.x += this.speed * delta
-        if (this.x <= 365) this.x = 366;
-        if (this.x >= 545) this.x = 544;
+        if (this.x <= 0) this.x = 0;
+
+
+        //old scrolling logic
+        //if (this.x <= 365) this.x = 366;
+        //if (this.x >= 545) this.x = 544;
         
-        else if (this.x > this.gameWidth - this.width) this.x = this.gameWidth - this.width
+        if (this.x > this.gameWidth - this.width) this.x = this.gameWidth - this.width
 
         //vertical movement
         this.y += this.vy/2 * (delta)
@@ -86,7 +95,9 @@
         return this.y >= this.gameHeight - this.height
     }
 
-    ScrollGameRight() {
+
+    //scrolling logic
+   /*  ScrollGameRight() {
         // console.log("scrolling right..")
         let gameObjects = document.querySelectorAll("#game .gameObject");
         gameObjects.forEach(function(elem) {
@@ -112,6 +123,5 @@
         let backgroundDiv = document.getElementById("background");
         this.backgroundScroll -= 1.1
         backgroundDiv.style.backgroundPositionX = `${this.backgroundScroll}%`
-    }
+    } */
 }
- */

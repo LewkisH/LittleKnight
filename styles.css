@@ -10,10 +10,6 @@ body {
 
 #gameWorld {
     position: relative;
-    overflow: scroll;
-    overflow: visible;
-    overflow-y: visible;
-    overflow-y: scroll;
     background-color: rgb(145, 145, 145);
     /* Width has to be (bitmap.width(100) * Scalefactor(48))  */
     width: 4800px; 
@@ -28,11 +24,11 @@ body {
     height: 500px;
     overflow:auto;
 }
-/* @import url('https://fonts.googleapis.com/css2?family=Sixtyfour&display=swap');
+ @import url('https://fonts.googleapis.com/css2?family=Sixtyfour&display=swap');
 
 #player {
     --xCoord: 454;
-    --yCoord: 0;
+    --yCoord: 100;
     background: url('assets/Player.png');
     width: 96px;
     height: 144px;
@@ -40,7 +36,7 @@ body {
     left: calc(var(--xCoord) * 1px);
     top: calc(var(--yCoord) * 1px);
 }
-
+/*
 .goblin {
     top: 506px;
     left: 500px;
@@ -58,6 +54,7 @@ body {
     height: 96px;
     position: absolute;
 }
+*/
 
 #background{
     width: 1000px;
@@ -189,4 +186,4 @@ div {
 
 body{
     margin:0;
-} */
+} 
