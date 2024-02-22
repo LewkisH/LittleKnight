@@ -1,5 +1,25 @@
+
+body {
+    
+    background-color: rgb(19, 40, 56);
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#gameWorld {
+    position: relative;
+    background-color: rgb(255, 255, 255);
+    width: 100px;
+    height: 50px;
+    border: solid 2px #575757;
+}
+/* @import url('https://fonts.googleapis.com/css2?family=Sixtyfour&display=swap');
+
 #player {
-    --xCoord: 0;
+    --xCoord: 454;
     --yCoord: 0;
     background: url('assets/Player.png');
     width: 96px;
@@ -9,13 +29,152 @@
     top: calc(var(--yCoord) * 1px);
 }
 
+.goblin {
+    top: 506px;
+    left: 500px;
+    background: url('assets/goblin.png');
+    width: 96px;
+    height: 96px;
+    position: absolute;
+}
+
+.goblin {
+    top: 506px;
+    left: 500px;
+    background: url('assets/goblin.png');
+    width: 96px;
+    height: 96px;
+    position: absolute;
+}
+
+#background{
+    width: 1000px;
+    height: 600px;
+    background-image: url("./assets/Level0Sprite.png");
+    background-position-y: 66%; 
+}
+
+#pauseMenu{
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 30;
+    background: #0000008d;
+    width: 1000px;
+    height: 600px;
+    position: absolute;
+    text-align: center;
+}
+
+#pauseMenu h2{
+    font-family: "Sixtyfour", sans-serif;
+    font-size: xx-large;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    color: rgb(255, 255, 255);
+    font-variation-settings:
+    "BLED" 0,
+    "SCAN" 0;
+    margin-bottom: 40px;
+}
+
+.options{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.continue{
+    cursor: pointer;
+    width: 220px;
+    background-color: rgb(51, 51, 51);
+    text-align: center;
+    border-style: solid;
+    border-color: rgb(44, 44, 44);
+    border-radius: 4px;
+    border-width: 5px;
+    margin-bottom: 20px;
+}
+
+.continue:hover {
+    background-color: rgb(58, 58, 58);
+    border-color: rgb(50, 50, 50);
+}
+
+.continue:active {
+    background-color: rgb(41, 41, 41);
+    border-color: rgb(34, 34, 34);
+}
+
+.restart{
+    cursor: pointer;
+    width: 220px;
+    background-color: rgb(51, 51, 51);
+    text-align: center;
+    border-style: solid;
+    border-color: rgb(44, 44, 44);
+    border-radius: 4px;
+    border-width: 5px;
+}
+
+.restart:hover {
+    background-color: rgb(58, 58, 58);
+    border-color: rgb(50, 50, 50);
+}
+
+.restart:active {
+    background-color: rgb(41, 41, 41);
+    border-color: rgb(34, 34, 34);
+}
+
+.options h1 {
+    font-family: "Sixtyfour", sans-serif;
+    font-size: x-large;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    color: rgb(201, 172, 4);
+    font-variation-settings:
+    "BLED" 0,
+    "SCAN" 0;
+    margin: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+
 #game {
     width: 1000px;
     height: 600px;
     border: 2px;
+    color: black;
     border-style: solid;
+}
+
+#ground{
+    width:96px;
+    height:96px;
+    background: black;
+    position:absolute;
+    top: 302px;
+    left: 200px;
+}
+
+#platform{
+    width:120px;
+    height:20px;
+    background: black;
+    position:absolute;
+    top: 402px;
+    left: 400px;
+}
+
+div {
+    color: white;
 }
 
 body{
     margin:0;
-}
+} */
