@@ -2,16 +2,16 @@ import { bitmapObjects, generateWorld} from "./generateWorld.js";
 import { readBitmap } from "./bitmapReader.js";
 
 window.addEventListener('load', async function () {
-    // let objectArray = getObjectArray(); This will come from bitmapReader.js currently just a sample value
 
-    // Populate the (bitmapObjects) array with sample objects
-    /* const newObject = {
-        objectType: "platform",
-        x: 0,
-        y: 0,
-        width: 5,
-        height: 5,
-    };
+    // Populate the (bitmapObjects) array with sample objects [TESTING]
+    // const newObject = {
+    //     objectType: "hazard",
+    //     x: 699,
+    //     y: 349,
+    //     width: 1,
+    //     height: 1,
+    // };
+    /*
     const newObject2 = {
         objectType: "platform",
         x: 50,
@@ -21,16 +21,20 @@ window.addEventListener('load', async function () {
         bitmapObjects.push(newObject, newObject2);
     }; */
 
-   let objArr = await readBitmap("assets/bmpbruh.bmp")
-console.log(objArr)
+//    let objArr = await readBitmap("assets/level0bitmap.bmp")
+    let objArr = await readBitmap("assets/bmpbruh.bmp")
 
+    console.log(objArr)
+    // bitmapObjects.push(newObject);
     // Add it to bitmapObjects
-
-
     let gameWorldElem = document.getElementById('gameWorld');
 
-
+    // generateWorld(bitmapObjects, gameWorldElem);
     generateWorld(objArr, gameWorldElem);
+
+    // Initial vertical Scroll value
+    let gameWorldWrapper = document.getElementById('gameWorldWrapper');
+    gameWorldWrapper.scrollTop = gameWorldWrapper.scrollHeight;
 });
 
 

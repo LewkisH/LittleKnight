@@ -1,6 +1,5 @@
 
 body {
-    
     background-color: rgb(19, 40, 56);
     margin: 0;
     display: flex;
@@ -11,10 +10,23 @@ body {
 
 #gameWorld {
     position: relative;
-    background-color: rgb(255, 255, 255);
-    width: 100px;
-    height: 50px;
+    overflow: scroll;
+    overflow: visible;
+    overflow-y: visible;
+    overflow-y: scroll;
+    background-color: rgb(145, 145, 145);
+    /* Width has to be (bitmap.width(100) * Scalefactor(48))  */
+    width: 4800px; 
+    /* Height has to be (bitmap.height(50) * Scalefactor(48))  */
+    height: 2400px;
     border: solid 2px #575757;
+}
+
+/* Wrapper for gameWorld to allow scrolling with negative top values and set the gamewindow size */
+#gameWorldWrapper{
+    width: 1000px;
+    height: 500px;
+    overflow:auto;
 }
 /* @import url('https://fonts.googleapis.com/css2?family=Sixtyfour&display=swap');
 

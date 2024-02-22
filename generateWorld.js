@@ -17,6 +17,7 @@
 
 function generateWorld(objectArray, gameWorldElem) {
     // Contains the gameWorld div height/width (for dynamic purposes)
+    // Bring this in from style, rather than clientHeight/width
     const gameWorldDimension = {
         height: gameWorldElem.clientHeight,
         width: gameWorldElem.clientWidth,
@@ -28,17 +29,17 @@ function generateWorld(objectArray, gameWorldElem) {
 
 // This function turns a single bitmap Obj to a Div ready to be placed in the gameworld
 function parseObjToDiv(bitmapObj, gameWorldDimension) {
+    const ScaleRatio = 48;
     const newDivElem = document.createElement('div');
     newDivElem.className = bitmapObj.objectType;
     newDivElem.id = bitmapObj.objectType;
-    newDivElem.style.width = bitmapObj.width + 'px';
-    newDivElem.style.height = bitmapObj.height + 'px';
+    newDivElem.style.width = (bitmapObj.width * ScaleRatio) + 'px';
+    newDivElem.style.height = (bitmapObj.height * ScaleRatio) + 'px';
     // Color depending on the object Type *TODO
     switch(bitmapObj.objectType){
         case "solid":
             newDivElem.style.backgroundColor = 'green';
             break;
-
         case "platform":
             newDivElem.style.backgroundColor = 'blue';
             break;
@@ -55,8 +56,9 @@ function parseObjToDiv(bitmapObj, gameWorldDimension) {
             newDivElem.style.backgroundColor = 'cyan';
             break;
     }
-    let leftPos = bitmapObj.x + 'px';
-    let topPos = (gameWorldDimension.height - bitmapObj.y) - bitmapObj.height  + 'px';
+
+    let leftPos = bitmapObj.x * ScaleRatio + 'px';
+    let topPos = (gameWorldDimension.height - (bitmapObj.y * ScaleRatio)) - (bitmapObj.height * ScaleRatio) + 'px';
     newDivElem.style.position = 'absolute';
     newDivElem.style.left = leftPos;
     newDivElem.style.top = topPos;
