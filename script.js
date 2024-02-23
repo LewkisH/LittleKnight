@@ -14,11 +14,11 @@ window.addEventListener('load', async function () {
     const game = document.getElementById('gameWorld');
     const player = new Player(game.offsetWidth, game.offsetHeight, document.getElementById("player"))
     const playerAABB = new AABBItem(player, "character")
-    const colMan = new CollisionManager()
-    colMan.addEntity(playerAABB)
+    const colMan = new CollisionManager(playerAABB)
+    //colMan.addEntity(playerAABB)
 
 
-    let objArr = await readBitmap("assets/collisiontest.bmp")
+    let objArr = await readBitmap("assets/lala.bmp")
 
 
     let gameWorldElem = document.getElementById('gameWorld');

@@ -110,7 +110,8 @@ export class AABBItem { //class to turn any object into a collidable.
 
 
 export class CollisionManager { // put all collidable objects into the manager
-    constructor() {
+    constructor(player) {
+        this.player = player
         this.entities = [];
     }
     addEntity(entity) {
@@ -119,81 +120,69 @@ export class CollisionManager { // put all collidable objects into the manager
 
     }
 
-    //checks collisions between all objects.
+    //checks collisions between all objects and player.
     checkAllCollision() {
         let playerCol = false;
         for (let i = 0; i < this.entities.length; i++) {
-            for (let j = i + 1; j < this.entities.length; j++) {
-                playerCol = this.handlePlayerCollision(i, j, playerCol)
-            }
+
+            playerCol = this.handlePlayerCollision(this.player, this.entities[i], playerCol)
+
         }
 
     }
 
 
 
-    handlePlayerCollision(i, j, playerCol) {
-        let char;
-        let env;
-        if (this.entities[i].type === "character" &&
-            (this.entities[j].type === "solid" ||
-                this.entities[j].type === "platform")) {
-            if (this.entities[i].id === "player") {
-                 char = this.entities[i];
-                 env = this.entities[j];
-            }
+    handlePlayerCollision(player, env, playerCol) {
+        //console.log(player.id + " checking: " + env.id)
+        if ((env.type === "solid" || env.type === "platform")) {
 
-            if (this.entities[i].checkCollision(this.entities[j])) {
-                
-                console.log(this.entities[i].id + " collided with: " + this.entities[j].id)
+            if (player.checkCollision(env)) {
+
+                //console.log(player.id + " collided with: " + env.id)
 
                 playerCol = true
 
-                if (char.collisionSide(env) === "top") {
-                    console.log(`top collision: PLAYER: ${char.x};${char.y}, ENV: ${env.x};${env.y}`)
-                    if (char.entity.crouch && env.type === "platform") {
+                if (player.collisionSide(env) === "top") {
+                    //console.log(`top collision: PLAYER: ${player.x};${player.y}, ENV: ${env.x};${env.y}`)
+                    if (player.entity.crouch && env.type === "platform") {
 
-                    } else if (char.entity.vy >= 0) {
-                        console.log("TRAAAAAAAAAAAAAAA", playerCol)
-                        char.entity.vy = 0;
-                        char.y = env.y - char.height
-                        console.log('top', env.id, char.height, env.y)
-                        char.grounded = true
+                    } else if (player.entity.vy >= 0) {
+                        player.entity.vy = 0;
+                        player.y = env.y - player.height
+                        console.log('top', env.id, player.height, env.y)
+                        player.grounded = true
                     }
-                } else if (char.collisionSide(env) === "right") {
-                    // console.log(`right collision: PLAYER: X:${char.x};Y:${char.y}, ENV: X:${env.x};Y:${env.y}`)
+                } else if (player.collisionSide(env) === "right") {
+                    // console.log(`right collision: PLAYER: X:${player.x};Y:${player.y}, ENV: X:${env.x};Y:${env.y}`)
 
-                    if (char.entity.vy > 0 && env.type === "platform") {
-                        char.x = env.x + env.width
+                    if (player.entity.vy > 0 && env.type === "platform") {
+                        player.x = env.x + env.width
                     } else if (env.type === "solid") {
 
-                        char.x = env.x + env.width
+                        player.x = env.x + env.width
                     }
 
-                } else if (char.collisionSide(env) === "left") {
-                    //console.log(`left collision: PLAYER: X:${char.x};Y:${char.y}, ENV: X:${env.x};Y:${env.y}`)
+                } else if (player.collisionSide(env) === "left") {
+                    //console.log(`left collision: PLAYER: X:${player.x};Y:${player.y}, ENV: X:${env.x};Y:${env.y}`)
 
-                    if (char.entity.vy > 0 && env.type === "platform") {
-                        char.x = env.x - char.width
+                    if (player.entity.vy > 0 && env.type === "platform") {
+                        player.x = env.x - player.width
                     } else if (env.type === "solid") {
 
-                        char.x = env.x - char.width
+                        player.x = env.x - player.width
                     }
                 }
                 if (env.type !== "platform") {
-                    if (char.collisionSide(env) === "bottom") {
-                        //console.log(`bottom collision: PLAYER: X:${char.x};Y:${char.y}, ENV: X:${env.x};Y:${env.y}`)
-                        // console.log('bot', env.id)
-                        char.y = env.y + env.height
-                        char.entity.vy += 1
+                    if (player.collisionSide(env) === "bottom") {
+                        //console.log(`bottom collision: PLAYER: X:${player.x};Y:${player.y}, ENV: X:${env.x};Y:${env.y}`)
+                        player.y = env.y + env.height
+                        player.entity.vy += 1
                     }
                 }
             }
-            
-            
-            
-            if (!playerCol && char !== undefined) {//if player has not collided with anything this frame then player is no longer grounded.
-                char.grounded = false
+            if (playerCol === false) {//if player has not collided with anything this frame then player is no longer grounded.
+                player.grounded = false
             }
             return (playerCol)
         }

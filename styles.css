@@ -27,8 +27,8 @@ body {
  @import url('https://fonts.googleapis.com/css2?family=Sixtyfour&display=swap');
 
 #player {
-    --xCoord: 454;
-    --yCoord: 100;
+    --xCoord: 354;
+    --yCoord: 2160;
     background: url('assets/Player.png');
     width: 96px;
     height: 144px;
