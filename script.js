@@ -27,7 +27,7 @@ window.addEventListener('load', async function () {
 
     // Initial vertical Scroll value
     let gameWorldWrapper = document.getElementById('gameWorldWrapper');
-    gameWorldWrapper.scrollTop = gameWorldWrapper.scrollHeight;
+    gameWorldWrapper.scrollTop = player.y;
     let pausedPlayerState = null;
     // let lastTime
     const gameLoop = function (time) {

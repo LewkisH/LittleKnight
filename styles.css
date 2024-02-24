@@ -28,7 +28,7 @@ body {
 
 #player {
     --xCoord: 30;
-    --yCoord: 2000;
+    --yCoord: 1000;
     background: url('assets/Player.png');
     width: 64px;
     height: 96px;

@@ -45,17 +45,15 @@ export default class Player {
     update(value, delta) {
 
         //move cam
-        //console.log(this.y, this.world.scrollTop)
+        console.log(this.y, this.world.scrollTop+350)
         this.world.scrollLeft = this.x - 450
 
 
-        if (this.world.scrollTop > this.y + 400) {
-            this.world.scrollTop = this.y -400;
-        } else if (this.world.scrollTop < this.y - 100)
-         {
-            this.world.scrollTop = this.y - 400;
+        if (this.y < this.world.scrollTop+250 && this.y > this.world.scrollTop+100) {
+            this.world.scrollTop -= this.y * 0.005;
+        } else if (this.y > this.world.scrollTop+480){
+            this.world.scrollTop += this.y * 0.005;
         }
-
 
         const horizontalSpeed = 0.5;
         const jumpVelocity = -3;
@@ -86,7 +84,9 @@ export default class Player {
         } else this.crouch = false;
 
         //horizontal movement
-
+        if (this.speed !== 0) {
+            console.log(this.speed * delta)
+        }
         this.x += this.speed * delta
 
         if (this.x <= 0) this.x = 0;
