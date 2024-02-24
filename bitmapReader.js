@@ -55,13 +55,13 @@ function readRGB(red, green, blue) {
     //console.log(red,green,blue)
     let key = String(red) + String(green) + String(blue)
 
-    rgbMap.set('02550', 'solid'); //green
-    rgbMap.set('00255', 'platform'); //blue
-    rgbMap.set('25500', 'hazard');//red
-    rgbMap.set('2552550', 'collectible'); //yellow
-    rgbMap.set('0255255', 'spawn'); //cyan
-    rgbMap.set('255255255', 'invisible');//white
-    rgbMap.set('000', 'air');//black
+    rgbMap.set('02550', 'green'); //green solid
+    rgbMap.set('00255', 'blue'); //blue platform
+    rgbMap.set('25500', 'red');//red hazard
+    rgbMap.set('2552550', 'yellow'); //yellow collectible
+    rgbMap.set('0255255', 'cyan'); //cyan spawn
+    rgbMap.set('255255255', 'invisible');//white invisible
+    rgbMap.set('000', 'air');//black air
     rgbMap.set('1257653', "brown")
     return rgbMap.get(key)
 }

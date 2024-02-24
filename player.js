@@ -42,7 +42,10 @@ export default class Player {
 
 
     update(value, delta) {
-        // console.log("Relative pos:", this.relativePlayerPosition);
+       /*  if (this.playerElem.style.backgroundPositionX==="0px"){
+        this.playerElem.style.backgroundPositionX = "32px"}
+        else this.playerElem.style.backgroundPositionX="0px"
+        // console.log("Relative pos:", this.relativePlayerPosition) */;
 
         const horizontalSpeed = 0.5;
         const jumpVelocity = -3;

@@ -18,7 +18,7 @@ window.addEventListener('load', async function () {
     //colMan.addEntity(playerAABB)
 
 
-    let objArr = await readBitmap("assets/lala.bmp")
+    let objArr = await readBitmap("assets/test2.bmp")
 
 
     let gameWorldElem = document.getElementById('gameWorld');
@@ -35,7 +35,7 @@ window.addEventListener('load', async function () {
             if (lastTime != null) {
                 const delta = time - lastTime
                 player.update(input, delta)
-                console.log("are we grounded" ,player.AABB.grounded)
+                console.log(player.vy)
                 colMan.checkAllCollision()
                 // console.log(playerAABB.checkCollision(blackAABB))
             }

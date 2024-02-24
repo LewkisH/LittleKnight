@@ -1,10 +1,8 @@
 const gameWorld = document.getElementById('gameWorldWrapper')
 const wrapperRect = gameWorld.getBoundingClientRect();
-console.log(gameWorld)
 export class AABBItem { //class to turn any object into a collidable.
     constructor(entity, type) {
         if (entity.id === 'player') {
-            console.log(entity)
             this.elem = document.getElementById("player")
             this.id = "player"; // for debug name
             this.width = entity.width;
@@ -56,9 +54,9 @@ export class AABBItem { //class to turn any object into a collidable.
     checkCollision(other) {
         return (
             (this.x + this.width) > other.x &&
+            (this.y + this.height) > other.y &&
             this.x < (other.x + other.width) &&
-            this.y < (other.y + other.height) &&
-            (this.y + this.height) > other.y
+            this.y < (other.y + other.height)
         )
     }
     //calculates which side of 'other' entity did current object collide with
@@ -67,18 +65,17 @@ export class AABBItem { //class to turn any object into a collidable.
         const dy = (this.y + this.height / 2) - (other.y + other.height / 2);
         const width = (this.width + other.width) / 2;
         const height = (this.height + other.height) / 2;
-        const crossWidth = width * dy;
-        const crossHeight = height * dx;
 
-        if (Math.abs(dx) <= width && Math.abs(dy) <= height) {
-            if (crossWidth > crossHeight) {
-                return crossWidth > -crossHeight ? 'bottom' : 'left';
-            } else {
-                return crossWidth > -crossHeight ? 'right' : 'top';
-            }
+        const offsetX = width - Math.abs(dx);
+        const offsetY = height - Math.abs(dy);
+
+        if (offsetX > offsetY) {
+            return dy > 0 ? 'bottom' : 'top';
+        } else {
+            return dx > 0 ? 'right' : 'left';
         }
-        return null;
     }
+
 
     //displays x,y,height,width under game window
     addToDebug() {
@@ -135,9 +132,10 @@ export class CollisionManager { // put all collidable objects into the manager
 
     handlePlayerCollision(player, env, playerCol) {
         //console.log(player.id + " checking: " + env.id)
-        if ((env.type === "solid" || env.type === "platform")) {
+        if ((env.type === "blue" || env.type === "green")) {
 
             if (player.checkCollision(env)) {
+                env.elem.style.backgroundColor = "white"
 
                 //console.log(player.id + " collided with: " + env.id)
 
@@ -145,42 +143,37 @@ export class CollisionManager { // put all collidable objects into the manager
 
                 if (player.collisionSide(env) === "top") {
                     //console.log(`top collision: PLAYER: ${player.x};${player.y}, ENV: ${env.x};${env.y}`)
-                    if (player.entity.crouch && env.type === "platform") {
+                    if (player.entity.crouch && env.type === "blue") {
 
-                    } else if (player.entity.vy >= 0) {
+                    } else if (player.entity.vy >=0) {
                         player.entity.vy = 0;
                         player.y = env.y - player.height
-                        console.log('top', env.id, player.height, env.y)
                         player.grounded = true
                     }
-                } else if (player.collisionSide(env) === "right") {
-                    // console.log(`right collision: PLAYER: X:${player.x};Y:${player.y}, ENV: X:${env.x};Y:${env.y}`)
-
-                    if (player.entity.vy > 0 && env.type === "platform") {
-                        player.x = env.x + env.width
-                    } else if (env.type === "solid") {
-
-                        player.x = env.x + env.width
-                    }
-
-                } else if (player.collisionSide(env) === "left") {
-                    //console.log(`left collision: PLAYER: X:${player.x};Y:${player.y}, ENV: X:${env.x};Y:${env.y}`)
-
-                    if (player.entity.vy > 0 && env.type === "platform") {
-                        player.x = env.x - player.width
-                    } else if (env.type === "solid") {
-
-                        player.x = env.x - player.width
-                    }
                 }
-                if (env.type !== "platform") {
+                if (env.type === "blue") {
+                    return
+                }
+                    if (player.collisionSide(env) === "right") {
+                        // console.log(`right collision: PLAYER: X:${player.x};Y:${player.y}, ENV: X:${env.x};Y:${env.y}`)
+                        player.x = env.x + env.width
+
+                    } else if (player.collisionSide(env) === "left") {
+                        //console.log(`left collision: PLAYER: X:${player.x};Y:${player.y}, ENV: X:${env.x};Y:${env.y}`)
+
+
+                        player.x = env.x - player.width
+
+                    }
                     if (player.collisionSide(env) === "bottom") {
                         //console.log(`bottom collision: PLAYER: X:${player.x};Y:${player.y}, ENV: X:${env.x};Y:${env.y}`)
                         player.y = env.y + env.height
                         player.entity.vy += 1
                     }
-                }
+                
+
             }
+            else {env.elem.style.backgroundColor = env.id}
             if (playerCol === false) {//if player has not collided with anything this frame then player is no longer grounded.
                 player.grounded = false
             }

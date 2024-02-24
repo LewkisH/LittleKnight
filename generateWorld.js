@@ -41,26 +41,9 @@ function parseObjToDiv(bitmapObj, gameWorldDimension) {
     newDivElem.style.width = (bitmapObj.width * ScaleRatio) + 'px';
     newDivElem.style.height = (bitmapObj.height * ScaleRatio) + 'px';
     // Color depending on the object Type *TODO
-    switch (bitmapObj.objectType) {
-        case "solid":
-            newDivElem.style.backgroundColor = 'green';
-            break;
-        case "platform":
-            newDivElem.style.backgroundColor = 'blue';
-            break;
-        case "hazard":
-            newDivElem.style.backgroundColor = 'red';
-            break;
-        case "collectible":
-            newDivElem.style.backgroundColor = 'yellow';
-            break;
-        case "brown":
-            newDivElem.style.backgroundColor = 'brown';
-            break;
-        case "spawn":
-            newDivElem.style.backgroundColor = 'cyan';
-            break;
-    }
+   
+            newDivElem.style.backgroundColor = bitmapObj.objectType;
+        
 
     let leftPos = bitmapObj.x * ScaleRatio + 'px';
     let topPos = (gameWorldDimension.height - (bitmapObj.y * ScaleRatio)) - (bitmapObj.height * ScaleRatio) + 'px';
