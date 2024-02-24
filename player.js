@@ -49,10 +49,10 @@ export default class Player {
         this.world.scrollLeft = this.x - 450
 
 
-        if (this.y < this.world.scrollTop+250 && this.y > this.world.scrollTop+100) {
-            this.world.scrollTop -= this.y * 0.005;
+        if (this.y < this.world.scrollTop+200) {
+            this.world.scrollTop = this.y-200;
         } else if (this.y > this.world.scrollTop+480){
-            this.world.scrollTop += this.y * 0.005;
+            this.world.scrollTop = this.y-480;
         }
 
         const horizontalSpeed = 0.5;
