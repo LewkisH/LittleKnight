@@ -31,7 +31,7 @@ export async function readBitmap(url) {
                 let colorValue = readRGB(red, green, blue)
                 //console.log(x, y, colorValue)
 
-                colorArr[Math.abs(y - height) - 1].push({ objectType: colorValue, x: x, y: y, checked: false })
+                colorArr[Math.abs(y - height) - 1].push({ objectType: colorValue, x: x, y: y, checked:false})
             }
 
 
@@ -96,6 +96,9 @@ function getObjectRect(matrix, row, col, width, height) {
     let worldWidth = width;
     let cell = matrix[row][col]
     let findType = cell.objectType
+
+    //uncomment below to have a div for each tile
+ //   return { objectType: findType, x: col, y: Math.abs(row - height) - 1, width: xLen, height: yCount }
     if (width + col > worldWidth) {
         width = worldWidth - col
     }
