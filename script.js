@@ -18,7 +18,7 @@ window.addEventListener('load', async function () {
     //colMan.addEntity(playerAABB)
 
 
-    let objArr = await readBitmap("assets/test2.bmp")
+    let objArr = await readBitmap("assets/bmpbruh.bmp")
 
 
     let gameWorldElem = document.getElementById('gameWorld');
@@ -35,7 +35,6 @@ window.addEventListener('load', async function () {
             if (lastTime != null) {
                 const delta = time - lastTime
                 player.update(input, delta)
-                console.log(player.vy)
                 colMan.checkAllCollision()
                 // console.log(playerAABB.checkCollision(blackAABB))
             }

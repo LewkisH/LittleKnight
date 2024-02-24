@@ -10,7 +10,7 @@ body {
 
 #gameWorld {
     position: relative;
-    background-color: rgb(145, 145, 145);
+    background-color: rgb(126, 176, 236);
     /* Width has to be (bitmap.width(100) * Scalefactor(48))  */
     width: 4800px; 
     /* Height has to be (bitmap.height(50) * Scalefactor(48))  */
@@ -21,17 +21,17 @@ body {
 /* Wrapper for gameWorld to allow scrolling with negative top values and set the gamewindow size */
 #gameWorldWrapper{
     width: 1000px;
-    height: 500px;
-    overflow:auto;
+    height: 700px;
+    overflow:hidden;
 }
  @import url('https://fonts.googleapis.com/css2?family=Sixtyfour&display=swap');
 
 #player {
-    --xCoord: 354;
-    --yCoord: 2200;
+    --xCoord: 30;
+    --yCoord: 2000;
     background: url('assets/Player.png');
-    width: 96px;
-    height: 144px;
+    width: 64px;
+    height: 96px;
     position: absolute;
     left: calc(var(--xCoord) * 1px);
     top: calc(var(--yCoord) * 1px);
