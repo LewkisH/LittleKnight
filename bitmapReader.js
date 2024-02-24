@@ -14,7 +14,7 @@ export async function readBitmap(url) {
         // get file info from bpm header 
         var width = dataView.getUint32(18, true);
         var height = dataView.getUint32(22, true);
-        let colorArr = create2DArray(width, height)
+        let colorArr = create2DArray(height)
 
 
         var pixelArrayOffset = dataView.getUint32(10, true); // the offset for where the first pixel's first byte is
@@ -29,16 +29,17 @@ export async function readBitmap(url) {
                 let blue = dataView.getUint8(pixelOffset)
                 // console.log(x, y, ": ", red, green, blue)
                 let colorValue = readRGB(red, green, blue)
-                //console.log(colorValue)
+                //console.log(x, y, colorValue)
 
-                colorArr[Math.abs(y - height) - 1].push({ objectType: colorValue, x: x, y: y, checked: false })
+                colorArr[Math.abs(y - height) - 1].push({ objectType: colorValue, x: x, y: y, checked:false})
             }
 
 
         }
 
         objArr = parseObjects(colorArr, width, height)
-        console.log(objArr)
+        console.log(colorArr)
+
         return objArr
 
     } catch (error) {
@@ -54,18 +55,19 @@ function readRGB(red, green, blue) {
     //console.log(red,green,blue)
     let key = String(red) + String(green) + String(blue)
 
-    rgbMap.set('02550', 'solid'); //green
-    rgbMap.set('00255', 'platform'); //blue
-    rgbMap.set('25500', 'hazard');//red
-    rgbMap.set('2552550', 'collectible'); //yellow
-    rgbMap.set('255255255', 'invisible');//white
-    rgbMap.set('000', 'air');//black
+    rgbMap.set('02550', 'green'); //green solid
+    rgbMap.set('00255', 'blue'); //blue platform
+    rgbMap.set('25500', 'red');//red hazard
+    rgbMap.set('2552550', 'yellow'); //yellow collectible
+    rgbMap.set('0255255', 'cyan'); //cyan spawn
+    rgbMap.set('255255255', 'invisible');//white invisible
+    rgbMap.set('000', 'air');//black air
     rgbMap.set('1257653', "brown")
     return rgbMap.get(key)
 }
 
-function create2DArray(x, y) {
-    const array = new Array(x);
+function create2DArray(y) {
+    const array = new Array(y);
 
     for (let i = 0; i < y; i++) {
         array[i] = new Array;
@@ -94,6 +96,9 @@ function getObjectRect(matrix, row, col, width, height) {
     let worldWidth = width;
     let cell = matrix[row][col]
     let findType = cell.objectType
+
+    //uncomment below to have a div for each tile
+ //   return { objectType: findType, x: col, y: Math.abs(row - height) - 1, width: xLen, height: yCount }
     if (width + col > worldWidth) {
         width = worldWidth - col
     }
@@ -102,7 +107,7 @@ function getObjectRect(matrix, row, col, width, height) {
             if (matrix[i][j].objectType === findType && !matrix[i][j].checked) {
                 xCount++
             } else if (matrix[i][j].objectType !== findType && xLen > xCount) {
-                markChecked(matrix, col, row, xLen, yCount)
+                markChecked(matrix, col, row, xLen, yCount, findType)
                 return { objectType: findType, x: col, y: Math.abs(row - height) - 1, width: xLen, height: yCount }
             }
 
@@ -123,14 +128,14 @@ function getObjectRect(matrix, row, col, width, height) {
             xCount = 0
         }
     }
-    markChecked(matrix, col, row, xLen, yCount)
+    markChecked(matrix, col, row, xLen, yCount, findType)
     return { objectType: findType, x: col, y: Math.abs(row - height) - 1, width: xLen, height: yCount }
 
 }
 
-function markChecked(matrix, col, row, x, y) {
+function markChecked(matrix, col, row, x, y, type) {
 
-    console.log(`marking ${x} by ${y} square starting from (${col};${row})`)
+    //console.log(`marking ${x} by ${y} square starting from (${col};${row}) out of ${type}`)
     for (let i = row; i > row - y; i--) {
         for (let j = col; j < x + col; j++) {
 

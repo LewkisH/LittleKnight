@@ -15,29 +15,38 @@
  * @param {HTMLElement} gameWorldElem - The element that represents the game world
  */
 
-function generateWorld(objectArray, gameWorldElem) {
-    // Contains the gameWorld div height/width (for dynamic purposes)
+import { CollisionManager, AABBItem } from "./collision.js";
+
+function generateWorld(objectArray, gameWorldElem, colMan) {
+    // Contains the gameWorld div height/width (for dynamic purpowses)
+    // Bring this in from style, rather than clientHeight/width
     const gameWorldDimension = {
         height: gameWorldElem.clientHeight,
         width: gameWorldElem.clientWidth,
     };
     objectArray.forEach(object => {
-        gameWorldElem.appendChild(parseObjToDiv(object, gameWorldDimension));
+        let elem =parseObjToDiv(object, gameWorldDimension)
+        gameWorldElem.appendChild(elem);
+        let objCol = new AABBItem(elem, object.objectType)
+        colMan.addEntity(objCol)
     });
 }
 
 // This function turns a single bitmap Obj to a Div ready to be placed in the gameworld
 function parseObjToDiv(bitmapObj, gameWorldDimension) {
+    const ScaleRatio = 48;
     const newDivElem = document.createElement('div');
     newDivElem.className = bitmapObj.objectType;
     newDivElem.id = bitmapObj.objectType;
-    newDivElem.style.width = bitmapObj.width + 'px';
-    newDivElem.style.height = bitmapObj.height + 'px';
+    newDivElem.style.width = (bitmapObj.width * ScaleRatio) + 'px';
+    newDivElem.style.height = (bitmapObj.height * ScaleRatio) + 'px';
     // Color depending on the object Type *TODO
-    newDivElem.style.backgroundColor = 'red';
+   
+            newDivElem.style.backgroundColor = bitmapObj.objectType;
+        
 
-    let leftPos = bitmapObj.x + 'px';
-    let topPos = (gameWorldDimension.height - bitmapObj.y) - bitmapObj.height  + 'px';
+    let leftPos = bitmapObj.x * ScaleRatio + 'px';
+    let topPos = (gameWorldDimension.height - (bitmapObj.y * ScaleRatio)) - (bitmapObj.height * ScaleRatio) + 'px';
     newDivElem.style.position = 'absolute';
     newDivElem.style.left = leftPos;
     newDivElem.style.top = topPos;

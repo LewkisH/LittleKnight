@@ -1,6 +1,5 @@
 
 body {
-    
     background-color: rgb(19, 40, 56);
     margin: 0;
     display: flex;
@@ -11,24 +10,33 @@ body {
 
 #gameWorld {
     position: relative;
-    background-color: rgb(255, 255, 255);
-    width: 100px;
-    height: 50px;
+    background-color: rgb(126, 176, 236);
+    /* Width has to be (bitmap.width(100) * Scalefactor(48))  */
+    width: 4800px; 
+    /* Height has to be (bitmap.height(50) * Scalefactor(48))  */
+    height: 2400px;
     border: solid 2px #575757;
 }
-/* @import url('https://fonts.googleapis.com/css2?family=Sixtyfour&display=swap');
+
+/* Wrapper for gameWorld to allow scrolling with negative top values and set the gamewindow size */
+#gameWorldWrapper{
+    width: 1000px;
+    height: 700px;
+    overflow:hidden;
+}
+ @import url('https://fonts.googleapis.com/css2?family=Sixtyfour&display=swap');
 
 #player {
-    --xCoord: 454;
-    --yCoord: 0;
+    --xCoord: 30;
+    --yCoord: 2000;
     background: url('assets/Player.png');
-    width: 96px;
-    height: 144px;
+    width: 64px;
+    height: 96px;
     position: absolute;
     left: calc(var(--xCoord) * 1px);
     top: calc(var(--yCoord) * 1px);
 }
-
+/*
 .goblin {
     top: 506px;
     left: 500px;
@@ -46,6 +54,7 @@ body {
     height: 96px;
     position: absolute;
 }
+*/
 
 #background{
     width: 1000px;
@@ -177,4 +186,4 @@ div {
 
 body{
     margin:0;
-} */
+} 
